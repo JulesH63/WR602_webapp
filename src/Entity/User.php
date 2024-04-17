@@ -30,8 +30,9 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $role = null;
 
-    #[ORM\Column]
-    private ?int $subscription_id = null;
+    #[ORM\ManyToOne(targetEntity: Subscription::class)]
+    #[ORM\JoinColumn(name: 'subscription_id', referencedColumnName: 'id')]
+    private ?Subscription $subscription = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $subscription_end_at = null;
@@ -107,14 +108,14 @@ class User
         return $this;
     }
 
-    public function getSubscriptionId(): ?int
+    public function getSubscription(): ?Subscription
     {
-        return $this->subscription_id;
+        return $this->subscription;
     }
 
-    public function setSubscriptionId(int $subscription_id): static
+    public function setSubscription(?Subscription $subscription): static
     {
-        $this->subscription_id = $subscription_id;
+        $this->subscription = $subscription;
 
         return $this;
     }

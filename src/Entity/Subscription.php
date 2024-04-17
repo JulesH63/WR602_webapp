@@ -29,6 +29,14 @@ class Subscription
     #[ORM\Column(length: 255)]
     private ?string $media = null;
 
+    #[ORM\OneToMany(mappedBy: 'subscription', targetEntity: User::class)]
+    private $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +98,35 @@ class Subscription
     public function setMedia(string $media): static
     {
         $this->media = $media;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setSubscription($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            if ($user->getSubscription() === $this) {
+                $user->setSubscription(null);
+            }
+        }
 
         return $this;
     }
