@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}PDF-Craft{% endblock %}</title>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    {% block stylesheets %}
+    {% endblock %}
+
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+{% block header %}
+    <header>
+        <a class="brand-name" href="{{ path('app_home') }}">
+            pdf-craft
+        </a>
+        <nav>
+            {#      si un utilisateur est connecté      #}
+            {% if app.user %}
+                <div class="dropdown">
+                    <button class="btn btn-secondary-color dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        Générer un PDF
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="{{ path('app_pdf_url') }}">Page web en pdf</a></li>
+                    </ul>
+                </div>
+                <ul>
+                    <li><a href="{{ path('app_account') }}">Mon compte</a></li>
+                    <li><a href="{{ path('app_galery') }}">Mes pdf</a></li>
+                    <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+                </ul>
+                {#      si pas d'utilisateur connecté      #}
+            {% else %}
+                <ul>
+                    <li><a href="{{ path('app_login') }}">Connexion</a></li>
+                    <li><a href="{{ path('app_register') }}">Inscription</a></li>
+                </ul>
+            {% endif %}
+        </nav>
+    </header>
+{% endblock %}
+<main>
+    {% block main %}{% endblock %}
+    {% block footer %}
+</main>
+    <footer>
+        <small>
+            &copy; {{ 'now'|date('Y') }} - Cyndel Herolt
+        </small>
+        <small>Construit avec Symfony 7 et <a href="https://gotenberg.dev" target="_blank">Gotenberg API</a>.</small>
+    </footer>
+{% endblock %}
+</body>
+</html>
