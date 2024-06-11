@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PdfController!{% endblock %}
+
+{% block main %}
+    <h2>Générer pdf à partir d'une url</h2>
+
+    <div class="col-lg-6 col-12">
+        {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.url) }}
+
+        <button class="btn btn-primary-color" type="submit" data-turbo-action="replace" data-turbo-frame="form-result">
+            Générer
+        </button>
+        {{ form_end(form) }}
+    </div>
+
+    <turbo-frame id="form-result">
+        <p>Ici le resultat</p>
+    </turbo-frame>
+{% endblock %}
