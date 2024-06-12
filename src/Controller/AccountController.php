@@ -11,11 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AccountController extends AbstractController
 {
-    private UserRepository $userRepository;
-
-    public function __construct(UserRepository $userRepository)
+    public function __construct(private UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
     }
 
     #[Route('/app/account', name: 'app_account')]
@@ -38,7 +35,7 @@ class AccountController extends AbstractController
 
         return $this->render('account/index.html.twig', [
             'form' => $form->createView(),
-            'edit' => $edit,
+            'edit' => $edit ?? false,
             'subscription' => $subscription,
         ]);
     }
