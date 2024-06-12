@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PDF Craft{% endblock %}
+
+{% block main %}
+    {% if app.user %}
+        <p>Vous êtes connecté en tant que {{ app.user.email }}</p>
+    {% endif %}
+    
+    <h1>PDF Craft</h1>
+    <p>
+        PDF Craft vous permet de générer et stocker des fichiers PDF à partir de plusieurs sources.
+        <br>
+        Transformez des images, des pages web, des fichiers Word, Excel ou créez des PDF personnalisés en quelques clics
+        et stockez-les dans votre espace personnel.
+    </p>
+
+    <section class="row m-auto d-flex flex-wrap justify-content-center gap-5 mt-5">
+        <h2>Nos offres</h2>
+        {% for subscription in subscriptions %}
+            <div class="my_card my_card_presentation col-lg-3 col-12 p-0 flex-grow-1
+            {% if app.user and app.user.subscription == subscription %}
+            active
+            {% endif %}
+            ">
+                <div class="card-content d-flex flex-column justify-content-between h-100">
+                    <div class="card-banner d-flex flex-column align-items-center p-4">
+                        <div class="d-flex">
+                            {% set starCount = loop.index %}
+                            {% for i in 1..starCount %}
+                                <twig:ux:icon name="bi:star-fill" height="16" width="16"/>
+                            {% endfor %}
+                        </div>
+                        <h3>{{ subscription.title }}</h3>
+                        <h4 class="text-center">{{ subscription.price }} €/mois</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="text-center">{{ subscription.pdfLimit }} PDFs/jour</h5>
+                        <hr>
+                        <p>{{ subscription.description }}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-center mb-4">
+                        {% if app.user and app.user.subscription == subscription %}
+                            <button class="btn btn-primary-color disabled">Actif</button>
+                        {% else %}
+                            <a href="{{ path('app_subscribe', {'id': subscription.id}) }}">
+                                <button class="btn
+                            {% if loop.index == 2 %}
+                            btn-primary-color
+                            {% else %}
+                            btn-primary-color-outline
+                            {% endif %}
+                            ">Souscrire
+                                </button>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}
