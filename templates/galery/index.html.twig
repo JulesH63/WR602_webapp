@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PDF-Craft | Galerie{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Ajout de styles personnalisés */
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #333;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .card hr {
+            border-color: #ddd;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary {
+            background-color: #e50914;
+            border-color: #e50914;
+            color: #fff;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+            padding: 8px 20px;
+        }
+
+        .btn-primary:hover {
+            background-color: #cc0811;
+            border-color: #cc0811;
+        }
+
+        .btn-outline-danger {
+            color: #e50914;
+            border-color: #e50914;
+            transition: color 0.3s ease, border-color 0.3s ease;
+            border-radius: 5px;
+            padding: 8px 20px;
+        }
+
+        .btn-outline-danger:hover {
+            background-color: #e50914;
+            color: #fff;
+        }
+
+        .pdf-iframe {
+            width: 100%;
+            height: 200px;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h1 class="page-title">Vos Pdf</h1>
+        <p class="text-muted">Ici, vous retrouvez tous vos PDFs enregistrés. Vous pouvez les consulter, les supprimer et les télécharger.</p>
+
+        <turbo-frame id="pdf-viewer">
+
+        </turbo-frame>
+
+        <section class="row justify-content-center gap-5 mt-5">
+            {% for pdf in pdfs %}
+                <div class="card col-lg-6">
+                    <div class="card-banner">
+                        <iframe class="pdf-iframe" src="{{ asset(pdf.path) }}" aria-controls="none"></iframe>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ pdf.title }}</h5>
+                        <small class="text-muted">Créé le : {{ pdf.createdAt|date('d/m/Y H:i') }}</small>
+                        <br>
+                        <div class="card-footer">
+                            <a href="{{ asset(pdf.path) }}" class="btn btn-primary" download>Télécharger</a>
+                            <a href="{{ path('app_pdf_delete', {'id': pdf.id}) }}" class="btn btn-outline-danger">Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </section>
+    </div>
+{% endblock %}

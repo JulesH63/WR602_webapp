@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bienvenue sur PDF-Craft{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    {% block stylesheets %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+        <style>
+            /* Ajoutez vos styles personnalisés ici */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f8f9fa;
+                color: #333;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+            }
+
+            header {
+                background-color: #000;
+                color: #fff;
+                padding: 10px 0;
+                text-align: center;
+            }
+
+            nav ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            nav ul li {
+                display: inline;
+                margin-right: 10px;
+            }
+
+            nav ul li a {
+                color: #fff;
+                text-decoration: none;
+            }
+
+            .dropdown-toggle {
+                background-color: #e50914;
+                border-color: #e50914;
+                color: #fff;
+                font-weight: bold;
+            }
+
+            .dropdown-toggle:hover {
+                background-color: #cc0811;
+                border-color: #cc0811;
+            }
+
+            .dropdown-menu {
+                background-color: #fff;
+                border: 1px solid #ddd;
+            }
+
+            .dropdown-menu a {
+                color: #333;
+                text-decoration: none;
+                display: block;
+                padding: 10px 20px;
+            }
+
+            .dropdown-menu a:hover {
+                background-color: #f8f9fa;
+            }
+        </style>
+    {% endblock %}
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            {% if app.user %}
+                <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                <li><a href="{{ path('app_pdf_url') }}">Générer PDF</a></li>
+                <li><a href="{{ path('app_account') }}">Mon compte</a></li>
+                <li><a href="{{ path('app_galery') }}">Mes PDF</a></li>
+                <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+            {% else %}
+                <li><a href="{{ path('app_login') }}">Connexion</a></li>
+                <li><a href="{{ path('app_register') }}">Inscription</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+<main>
+    {% block main %}{% endblock %}
+</main>
+<footer>
+    {% block footer %}{% endblock %}
+</footer>
+</body>
+</html>
